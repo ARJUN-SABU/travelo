@@ -19,8 +19,7 @@ export default async (req, res) => {
     payment_method_types: ["card"],
     line_items: transformedItems,
     mode: "payment",
-    // success_url: `${process.env.HOST}/success`,
-    success_url: `${process.env.HOST}/`,
+    success_url: `${process.env.HOST}/my-bookings`,
     cancel_url: `${process.env.HOST}/cancel`,
     metadata: {
       email,

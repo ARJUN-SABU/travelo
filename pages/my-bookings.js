@@ -32,7 +32,7 @@ function Bookings() {
         })
         .then((result) => {
           console.log("Result --> ", result.data);
-          setMyBookings(result.data.bookings);
+          setMyBookings(result.data.bookings.reverse());
         })
         .catch((err) => console.log(err));
     }

@@ -1,14 +1,16 @@
 //packages
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { v5 as uuidv5 } from "uuid";
 
 //components
 import Navbar from "../components/Navbar";
+import BookingCard from "../components/BookingCard";
 
 function Bookings() {
   const session = useSession();
+  const [myBookings, setMyBookings] = useState([]);
 
   useEffect(() => {
     // console.log(session.data.user.name);
@@ -28,7 +30,10 @@ function Bookings() {
         .post("/api/get-bookings/", {
           collectionName: session.data.user.email,
         })
-        .then((result) => console.log("Result --> ", result.data))
+        .then((result) => {
+          console.log("Result --> ", result.data);
+          setMyBookings(result.data.bookings);
+        })
         .catch((err) => console.log(err));
     }
   }, [session.data?.user.name]);
@@ -56,15 +61,28 @@ function Bookings() {
     <>
       <Navbar />
       {session.data == null ? (
-        <div>
-          <h1>Sign In Please!</h1>
+        <div className="absolute top-0 bottom-0 left-0 right-0 z-[-1] flex justify-center items-center">
+          <button
+            className="font-semibold text-xl bg-sky-500 shadow-xl px-6 py-2 rounded-lg"
+            onClick={signIn}
+          >
+            Sign In Please!
+          </button>
         </div>
       ) : (
         <div>
-          <h1>Hello World</h1>
-          <input type="text" id="destination" placeholder="destination" />
-          <input type="number" id="price" placeholder="price" />
-          <button onClick={handleClick}>Create JSON</button>
+          <h1 className="font-semibold text-2xl pl-4 py-6 lg:px-40">
+            My Bookings
+          </h1>
+          <div className="lg:mx-36">
+            {myBookings.map((booking) => (
+              <BookingCard
+                hotel_name={booking.hotel_name}
+                amount={booking.amount}
+                id={booking._id}
+              />
+            ))}
+          </div>
         </div>
       )}
     </>

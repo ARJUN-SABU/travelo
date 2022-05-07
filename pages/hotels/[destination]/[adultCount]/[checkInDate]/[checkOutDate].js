@@ -11,17 +11,41 @@ function Hotels(props) {
   // console.log(props);
 
   return (
-    <div className="flex flex-col h-screen overflow-y-scroll">
+    <div className="flex flex-col h-screen overflow-y-scroll bg-indigo-50">
       {/* Navbar */}
-      <Navbar />
+      <div className="w-full flex justify-center shadow-lg z-20">
+        <Navbar showSearch={false} />
+      </div>
 
       {/* Content */}
-      <div className="flex flex-1 overflow-y-scroll">
-        <div className="bg-green-200 flex-1 h-full overflow-y-scroll">
+      <div className="relative flex flex-1 overflow-y-scroll">
+        <div className="absolute z-10 bg-indigo-50 md:relative w-full md:w-3/4 h-full overflow-y-scroll content_container">
           {/* Hotel Listing */}
-          <div>
-            <p>{`${props.query_params.checkInDate} to ${props.query_params.checkOutDate} for ${props.query_params.adultCount} guests`}</p>
-            <h1>{props.query_params.destination}</h1>
+          <div className="text-slate-900 mx-4 py-4 mb-4 border-b border-b-gray-400">
+            {/* <p>{`${props.query_params.checkInDate} to ${props.query_params.checkOutDate} for ${props.query_params.adultCount} guests`}</p> */}
+            <div className="flex justify-between">
+              <p>
+                <span className="font-bold">
+                  {props.query_params.checkInDate}
+                </span>
+                {" to "}
+                <span className="font-bold">
+                  {props.query_params.checkOutDate}
+                </span>
+              </p>
+              <p>
+                <span className="font-bold">
+                  {props.query_params.adultCount}
+                </span>
+                {" Guests "}
+              </p>
+            </div>
+            <h1 className="text-xl mt-1">
+              Stays in{" "}
+              <span className="font-bold">
+                {props.query_params.destination}
+              </span>
+            </h1>
           </div>
           <div>
             {props.hotels_list.slice(0, 10).map((hotel) => (
@@ -36,7 +60,7 @@ function Hotels(props) {
             ))}
           </div>
         </div>
-        <div className="flex-1 bg-red-200 h-full">
+        <div className="absolute w-full md:relative md:w-2/4 bg-red-200 h-full  md:block map_container">
           {/* Hotels on Map */}
           <MapComponent
             hotels={props.hotels_list.slice(0, 10)}
@@ -51,6 +75,41 @@ function Hotels(props) {
             }}
           />
         </div>
+      </div>
+
+      <div
+        className="absolute z-50 right-0 top-0 bottom-0 flex items-center md:hidden map_button"
+        onClick={() => {
+          document.querySelector(".map_container").classList.remove("hidden");
+          document.querySelector(".content_container").classList.add("hidden");
+          document.querySelector(".back_button").classList.remove("hidden");
+          document.querySelector(".map_button").classList.add("hidden");
+        }}
+      >
+        <h1 className="bg-indigo-600 text-white px-3 py-3 shadow-xl rounded-l-xl text-sm flex flex-col items-center">
+          <span>M</span>
+          <span>A</span>
+          <span>P</span>
+        </h1>
+      </div>
+
+      <div
+        className="absolute z-50 left-0 top-0 bottom-0 flex hidden items-center md:hidden back_button"
+        onClick={() => {
+          document.querySelector(".map_container").classList.add("hidden");
+          document
+            .querySelector(".content_container")
+            .classList.remove("hidden");
+          document.querySelector(".map_button").classList.remove("hidden");
+          document.querySelector(".back_button").classList.add("hidden");
+        }}
+      >
+        <h1 className="bg-indigo-600 text-white px-3 py-3 shadow-3xl rounded-r-xl text-sm flex flex-col items-center">
+          <span>B</span>
+          <span>A</span>
+          <span>C</span>
+          <span>K</span>
+        </h1>
       </div>
     </div>
   );

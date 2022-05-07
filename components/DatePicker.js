@@ -95,9 +95,9 @@ function DatePicker(props) {
               month == checkOutDate?.month &&
               year == checkOutDate?.year)
           ) {
-            dateString += `<p class='text-white cursor-pointer border-2 border-transparent hover:border-sky-500 text-center rounded-xl py-3 text-base bg-sky-500'><span class="border-b-2 pb-1 border-white">${i}</span></p>`;
+            dateString += `<p class='text-slate-800 cursor-pointer border-2 border-transparent hover:border-sky-500 text-center rounded-xl py-3 text-base bg-sky-500'><span class="border-b-2 pb-1 border-white">${i}</span></p>`;
           } else {
-            dateString += `<p class='text-white cursor-pointer border-2 border-transparent hover:border-sky-500 text-center rounded-xl py-3 text-base'><span class="border-b-2 pb-1 border-sky-500">${i}</span></p>`;
+            dateString += `<p class='text-slate-800 cursor-pointer border-2 border-transparent hover:border-sky-500 text-center rounded-xl py-3 text-base'><span class="border-b-2 pb-1 border-sky-500">${i}</span></p>`;
           }
         }
       } else if (
@@ -128,9 +128,9 @@ function DatePicker(props) {
             month == checkOutDate?.month &&
             year == checkOutDate?.year)
         ) {
-          dateString += `<p class='text-white cursor-pointer border-2 border-transparent  hover:border-sky-500 text-center rounded-xl py-3 text-base bg-sky-500'><span>${i}</span></p>`;
+          dateString += `<p class='text-slate-800 cursor-pointer border-2 border-transparent  hover:border-sky-500 text-center rounded-xl py-3 text-base bg-sky-500'><span>${i}</span></p>`;
         } else {
-          dateString += `<p class='text-white cursor-pointer border-2 border-transparent  hover:border-sky-500 text-center rounded-xl py-3 text-base'><span>${i}</span></p>`;
+          dateString += `<p class='text-slate-800 cursor-pointer border-2 border-transparent  hover:border-sky-500 text-center rounded-xl py-3 text-base'><span>${i}</span></p>`;
         }
       }
     }
@@ -222,14 +222,15 @@ function DatePicker(props) {
   }, [checkInDate, checkOutDate]);
 
   return (
-    <div className="w-[400px]">
-      <div className="flex w-full justify-around bg-slate-800 text-white pt-6 pb-3 px-4">
+    <div className="w-[400px">
+      {/* <div className="flex w-full justify-around bg-slate-800 text-white pt-6 pb-3 px-4"> */}
+      <div className="flex w-full justify-around bg-slate-50 text-slate-800 pt-6 pb-3 px-4">
         <div className="flex-1 mr-4 flex flex-col items-center">
           <button
             className={
               checkSelected === "check-in"
-                ? `border-2 border-slate-300 px-2 py-1 rounded w-full ${styles.checkButton}`
-                : `border-2 border-transparent px-2 py-1 rounded w-full ${styles.checkButton}`
+                ? `px-2 py-1 rounded w-full ${styles.checkButton} bg-sky-500 shadow-lg font-semibold border-2 border-slate-800`
+                : `px-2 py-1 rounded w-full ${styles.checkButton} shadow-lg font-semibold border-2 border-slate-800`
             }
             onClick={() => {
               setCheckSelected("check-in");
@@ -237,14 +238,14 @@ function DatePicker(props) {
           >
             Check In
           </button>
-          <p className="text-gray-300 text-sm pt-2">{checkInString}</p>
+          <p className="text-slate-700 text-sm pt-2">{checkInString}</p>
         </div>
         <div className="flex-1 flex flex-col items-center">
           <button
             className={
               checkSelected === "check-out"
-                ? `border-2 border-slate-300 px-2 py-1 rounded w-full ${styles.checkButton}`
-                : `border-2 border-transparent px-2 py-1 rounded w-full ${styles.checkButton}`
+                ? `px-2 py-1 rounded w-full ${styles.checkButton} bg-sky-500 shadow-lg font-semibold border-2 border-slate-800`
+                : `px-2 py-1 rounded w-full ${styles.checkButton} shadow-lg font-semibold border-2 border-slate-800`
             }
             onClick={() => {
               setCheckSelected("check-out");
@@ -252,13 +253,14 @@ function DatePicker(props) {
           >
             Check Out
           </button>
-          <p className="text-gray-300 text-sm pt-2">{checkOutString}</p>
+          <p className="text-slate-700 text-sm pt-2">{checkOutString}</p>
         </div>
       </div>
-      <div className={`bg-slate-900 shadow-2xl ${styles.datePicker}`}>
+      {/* <div className={`bg-slate-900 shadow-2xl ${styles.datePicker}`}> */}
+      <div className={`bg-white shadow-2xl ${styles.datePicker}`}>
         <div className="flex justify-between items-center w-full py-6 px-4">
           <div
-            className="cursor-pointer"
+            className="cursor-pointer text-slate-800"
             onClick={() => {
               let d = new Date(year, month);
               d.setMonth(month - 1);
@@ -269,13 +271,13 @@ function DatePicker(props) {
           >
             <AiFillCaretLeft />
           </div>
-          <div className="text-xl font-semibold">
+          <div className="text-xl font-semibold text-slate-800">
             <h1>
               {months[month]} {year}
             </h1>
           </div>
           <div
-            className="cursor-pointer"
+            className="cursor-pointer text-slate-800"
             onClick={() => {
               let d = new Date(year, month);
               d.setMonth(month + 1);

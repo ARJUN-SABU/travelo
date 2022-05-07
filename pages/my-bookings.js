@@ -77,6 +77,7 @@ function Bookings() {
           <div className="lg:mx-36">
             {myBookings.map((booking) => (
               <BookingCard
+                key={booking._id}
                 hotel_name={booking.hotel_name}
                 amount={booking.amount}
                 id={booking._id}

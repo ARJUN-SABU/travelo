@@ -1,4 +1,5 @@
 //packages
+import Head from "next/head";
 import axios from "axios";
 import { getCenter } from "geolib";
 
@@ -12,6 +13,10 @@ function Hotels(props) {
 
   return (
     <div className="flex flex-col h-screen overflow-y-scroll bg-indigo-50">
+      <Head>
+        <title>travelo</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
       {/* Navbar */}
       <div className="w-full flex justify-center shadow-lg z-20">
         <Navbar showSearch={false} />

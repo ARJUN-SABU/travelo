@@ -11,6 +11,11 @@ import Image1 from "../public/travelo_img_1.svg";
 export default function Home() {
   return (
     <div className="bg-indigo-50 min-h-screen flex flex-col items-center">
+      <Head>
+        <title>travelo</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
+
       {/* Navbar */}
       <Navbar showSearch={true} />
 

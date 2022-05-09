@@ -1,4 +1,5 @@
 //packages
+import Head from "next/head";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -59,6 +60,10 @@ function Bookings() {
 
   return (
     <>
+      <Head>
+        <title>travelo</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
       <Navbar />
       {session.data == null ? (
         <div className="absolute top-0 bottom-0 left-0 right-0 z-[-1] flex justify-center items-center">

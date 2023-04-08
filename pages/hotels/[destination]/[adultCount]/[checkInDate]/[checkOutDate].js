@@ -10,6 +10,12 @@ import MapComponent from "../../../../../components/MapComponent";
 
 function Hotels(props) {
   // console.log(props);
+  // console.log(
+  //   props.hotels_list.slice(0, 10).map((hotel) => ({
+  //     longitude: hotel.coordinate.long,
+  //     latitude: hotel.coordinate.lat,
+  //   }))
+  // );
 
   return (
     <div className="flex flex-col h-screen overflow-y-scroll bg-indigo-50">
@@ -56,11 +62,14 @@ function Hotels(props) {
             {props.hotels_list.slice(0, 10).map((hotel) => (
               <HotelCard
                 key={hotel.id}
-                hotel_img={hotel.optimizedThumbUrls.srpDesktop}
+                // hotel_img={hotel.optimizedThumbUrls.srpDesktop}
+                hotel_img={hotel.img}
                 hotel_name={hotel.name}
-                hotel_address={`${hotel.address.streetAddress}, ${hotel.address.locality}, ${hotel.address.postalCode}, ${hotel.address.countryName}`}
+                // hotel_address={`${hotel.address.streetAddress}, ${hotel.address.locality}, ${hotel.address.postalCode}, ${hotel.address.countryName}`}
+                hotel_address={hotel.address}
                 hotel_rating={hotel.starRating}
-                hotel_price={hotel.ratePlan.price.current}
+                // hotel_price={hotel.ratePlan.price.current}
+                hotel_price={hotel.price}
               />
             ))}
           </div>
@@ -72,7 +81,7 @@ function Hotels(props) {
             viewState={{
               ...getCenter(
                 props.hotels_list.slice(0, 10).map((hotel) => ({
-                  longitude: hotel.coordinate.lon,
+                  longitude: hotel.coordinate.long,
                   latitude: hotel.coordinate.lat,
                 }))
               ),
@@ -121,38 +130,91 @@ function Hotels(props) {
 }
 
 async function getData(destination, adultCount, checkInDate, checkOutDate) {
+  // let response_1 = await axios.get(
+  //   "https://hotels-com-provider.p.rapidapi.com/v1/destinations/search",
+  //   {
+  //     params: { query: destination, currency: "USD", locale: "en_US" },
+  //     headers: {
+  //       "x-rapidapi-host": "hotels-com-provider.p.rapidapi.com",
+  //       "x-rapidapi-key": "8517eae71fmsh11cb32d41fd9f01p1ec9a7jsnd2c8cd7a73ec",
+  //     },
+  //   }
+  // );
   let response_1 = await axios.get(
-    "https://hotels-com-provider.p.rapidapi.com/v1/destinations/search",
+    "https://hotels-com-provider.p.rapidapi.com/v2/regions",
     {
-      params: { query: destination, currency: "USD", locale: "en_US" },
+      params: { query: destination, locale: "en_IN", domain: "IN" },
       headers: {
-        "x-rapidapi-host": "hotels-com-provider.p.rapidapi.com",
-        "x-rapidapi-key": "8517eae71fmsh11cb32d41fd9f01p1ec9a7jsnd2c8cd7a73ec",
+        "X-RapidAPI-Host": "hotels-com-provider.p.rapidapi.com",
+        "X-RapidAPI-Key": "8517eae71fmsh11cb32d41fd9f01p1ec9a7jsnd2c8cd7a73ec",
       },
     }
   );
-  let destId = response_1.data.suggestions[0].entities[0].destinationId;
+  // console.log(response_1.data.data[0]);
+  // let destId = response_1.data.suggestions[0].entities[0].destinationId;
+  let destId = response_1.data.data[0].gaiaId;
+
+  // let response_2 = await axios.get(
+  //   "https://hotels-com-provider.p.rapidapi.com/v1/hotels/search",
+  //   {
+  //     params: {
+  //       checkin_date: checkInDate,
+  //       checkout_date: checkOutDate,
+  //       sort_order: "STAR_RATING_HIGHEST_FIRST",
+  //       destination_id: destId,
+  //       adults_number: adultCount,
+  //       locale: "en_US",
+  //       currency: "INR",
+  //     },
+  //     headers: {
+  //       "x-rapidapi-host": "hotels-com-provider.p.rapidapi.com",
+  //       "x-rapidapi-key": "8517eae71fmsh11cb32d41fd9f01p1ec9a7jsnd2c8cd7a73ec",
+  //     },
+  //   }
+  // );
+
   let response_2 = await axios.get(
-    "https://hotels-com-provider.p.rapidapi.com/v1/hotels/search",
+    "https://hotels-com-provider.p.rapidapi.com/v2/hotels/search",
     {
       params: {
+        domain: "IN",
+        sort_order: "RECOMMENDED",
+        locale: "en_IN",
         checkin_date: checkInDate,
         checkout_date: checkOutDate,
-        sort_order: "STAR_RATING_HIGHEST_FIRST",
-        destination_id: destId,
+        region_id: destId,
         adults_number: adultCount,
-        locale: "en_US",
         currency: "INR",
+        star_rating_ids: "3,4,5",
       },
       headers: {
-        "x-rapidapi-host": "hotels-com-provider.p.rapidapi.com",
-        "x-rapidapi-key": "8517eae71fmsh11cb32d41fd9f01p1ec9a7jsnd2c8cd7a73ec",
+        "X-RapidAPI-Host": "hotels-com-provider.p.rapidapi.com",
+        "X-RapidAPI-Key": "8517eae71fmsh11cb32d41fd9f01p1ec9a7jsnd2c8cd7a73ec",
       },
     }
   );
 
-  let hotels_list = response_2.data.searchResults.results;
-  return hotels_list;
+  // console.log(response_2.data.properties[0].price.lead.amount);
+  // console.log(response_2.data.properties[0].price.lead.currencyInfo.code);
+  // console.log(response_2.data.properties[0].mapMarker.latLong.latitude);
+  console.log(response_2.data.properties[0]);
+
+  // let hotels_list = response_2.data.searchResults.results;
+
+  let hotels_list = response_2.data.properties.map((property) => ({
+    id: property.id,
+    name: property.name,
+    img: property.propertyImage?.image?.url,
+    address: property.destinationInfo.distanceFromMessaging,
+    starRating: property.star,
+    price: property.price.lead.amount,
+    coordinate: {
+      lat: property.mapMarker.latLong.latitude,
+      long: property.mapMarker.latLong.longitude,
+    },
+  }));
+  // console.log(hotels_list);
+  return hotels_list.slice(0, 10);
 }
 
 export async function getServerSideProps(context) {

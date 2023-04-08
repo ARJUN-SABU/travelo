@@ -37,7 +37,7 @@ function MapComponent(props) {
       {props.hotels.map((hotel) => (
         <div key={hotel.id}>
           <Marker
-            longitude={hotel.coordinate.lon}
+            longitude={hotel.coordinate.long}
             latitude={hotel.coordinate.lat}
             offsetLeft={-20}
             offsetTop={-10}
@@ -46,7 +46,7 @@ function MapComponent(props) {
               style={{ fontSize: "30px" }}
               onClick={() => {
                 setPopLocation({
-                  long: hotel.coordinate.lon,
+                  long: hotel.coordinate.long,
                   lat: hotel.coordinate.lat,
                 });
               }}
@@ -55,11 +55,11 @@ function MapComponent(props) {
             </span>
           </Marker>
 
-          {popLocation.long == hotel.coordinate.lon &&
+          {popLocation.long == hotel.coordinate.long &&
           popLocation.lat == hotel.coordinate.lat ? (
             <Popup
               closeOnClick={false}
-              longitude={hotel.coordinate.lon}
+              longitude={hotel.coordinate.long}
               latitude={hotel.coordinate.lat}
               closeButton={false}
               style={{ fontSize: "20px" }}

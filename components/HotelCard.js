@@ -19,9 +19,12 @@ function HotelCard(props) {
         {
           id: 1,
           title: props.hotel_name,
-          price: Number(props.hotel_price.replace("Rs", "").replace(",", "")),
+          // price: Number(props.hotel_price.replace("Rs", "").replace(",", "")),
+          price: Number(props.hotel_price),
+
           rating: Number(props.hotel_rating),
-          description: props.hotel_address,
+          // description: props.hotel_address,
+          description: "This is the address",
         },
       ],
       // email: "abc@abc.com",
@@ -65,7 +68,9 @@ function HotelCard(props) {
             <span className="mr-1">
               <FaRupeeSign />
             </span>
-            <span>{props.hotel_price.replace("Rs", "")}</span>
+            {/* <span>{props.hotel_price.replace("Rs", "")}</span>
+             */}
+            <span>{props.hotel_price}</span>
           </p>
         </div>
 
